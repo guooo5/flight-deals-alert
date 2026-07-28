@@ -12,19 +12,19 @@ class FlightSearch:
         self._api_key = os.environ["SERPAPI_API_KEY"]
     
     def check_flights(self, origin_city_code, dest_city_code, from_time, to_time):
-        params = {
+        query = {
             "engine": "google_flights",
             "departure_id": origin_city_code,
             "arrival_id": dest_city_code,
-            "outbound_date": from_time,
-            "return_date": to_time,
+            "outbound_date": from_time.strftime("%Y-%m-%d"),
+            "return_date": to_time.strftime("%Y-%m-%d"),
             "type": "1",
             "adults":"1",
             "currency": "USD",
             "api_key": self._api_key
         }
         
-        response = requests.get(url=SERPAPI_ENDPOINT, params=params)
+        response = requests.get(url=SERPAPI_ENDPOINT, params=query)
         
         if response.status_code != 200:
             print(f"check_flight() response code: {response.status_code}")
